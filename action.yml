@@ -1,0 +1,25 @@
+name: 'Linear Manual Approval'
+description: 'Make a Linear ticket and manually wait on approval in said Linear ticket'
+author: 'Palolo'
+inputs:
+  linear-api-key: # change this
+    required: true
+    description: 'Your Linear API key'
+  issue-title:
+    required: true
+    description: The title of your issue
+  issue-body:
+    required: true
+    description: The body of your issue
+  team-name:
+    required: true
+    description: The team name to create your issues in
+  polling-interval:
+    required: false
+    # This is a number
+    default: '10000'
+    description: How long to wait between polls of Linear
+    
+runs:
+  using: 'node16'
+  main: 'dist/index.js'
