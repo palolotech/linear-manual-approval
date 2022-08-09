@@ -1,18 +1,22 @@
-<p align="center">
-  <a href="https://github.com/actions/typescript-action/actions"><img alt="typescript-action status" src="https://github.com/actions/typescript-action/workflows/build-test/badge.svg"></a>
-</p>
 
-# Create a JavaScript Action using TypeScript
+# Using this action
 
-Use this template to bootstrap the creation of a TypeScript action.:rocket:
+TL/DR: This action makes a Linear ticket in one of your projects in Backlog state with no
+assigned handler (both TODO) at which point they wait until the ticket is closed before proceeding
 
-This template includes compilation support, tests, a validation workflow, publishing, and versioning guidance.
+NOTE: Github Actions jobs time out after 6 hours.  If you want more than that, pay up for Github Enterprise and use their version instead.  
 
-If you are new, there's also a simpler introduction. See the [Hello World JavaScript Action](https://github.com/actions/hello-world-javascript-action)
+```
+- uses: palolotech/linear-manual-approval@main
+  with:
+    linear-api-key: ${{ secrets.LINEAR_API_KEY }}
+    issue-title: This is a test ticket
+    issue-body: This is the body of our test ticket
+    team-name: Tickets
+  ```
 
-## Create an action from this template
 
-Click the `Use this Template` and provide the new repo details for your action
+# Development and deployment notes (left from the template)
 
 ## Code in Main
 
@@ -21,19 +25,19 @@ Click the `Use this Template` and provide the new repo details for your action
 Install the dependencies
 
 ```bash
-$ npm install
+$ pnpm install
 ```
 
 Build the typescript and package it for distribution
 
 ```bash
-$ npm run build && npm run package
+$ pnpm run build && npm run package
 ```
 
 Run the tests :heavy_check_mark:
 
 ```bash
-$ npm test
+$ pnpm test
 
  PASS  ./index.test.js
   ✓ throws invalid number (3ms)
@@ -51,27 +55,6 @@ Update the action.yml with your name, description, inputs and outputs for your a
 
 See the [documentation](https://help.github.com/en/articles/metadata-syntax-for-github-actions)
 
-## Change the Code
-
-Most toolkit and CI/CD operations involve async operations so the action is run in an async function.
-
-```javascript
-import * as core from '@actions/core';
-...
-
-async function run() {
-  try {
-      ...
-  }
-  catch (error) {
-    core.setFailed(error.message);
-  }
-}
-
-run()
-```
-
-See the [toolkit documentation](https://github.com/actions/toolkit/blob/master/README.md#packages) for the various packages.
 
 ## Publish to a distribution branch
 
