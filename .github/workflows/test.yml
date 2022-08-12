@@ -1,4 +1,4 @@
-name: 'build-test'
+name: 'manual-test'
 on:
   workflow_dispatch:
 
@@ -6,10 +6,13 @@ jobs:
   test: # make sure the action works on a clean machine without building
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.sha }}
       - uses: ./
         with:
           linear-api-key: ${{ secrets.LINEAR_API_KEY }}
           issue-title: This is a test ticket
           issue-body: This is the body of our test ticket
           team-name: Tickets
+          starting-status: Open
