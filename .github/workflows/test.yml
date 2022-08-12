@@ -7,6 +7,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          ref: ${ github.sha }
       - uses: ./
         with:
           linear-api-key: ${{ secrets.LINEAR_API_KEY }}

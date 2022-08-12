@@ -37,6 +37,7 @@ async function run(): Promise<void> {
     var linearIssueCreateOptions : IssueCreateInput = {  title: issueTitle, teamId: ticketsTeam.id, description: issueBody }
 
     if (startingStatus != "do not set") {
+        console.log("Attempting to set status to " + startingStatus);
         const statuses = (await linearClient.workflowStates({ filter: { team: {id: { eq: ticketsTeam.id}}, name: { eq: startingStatus } } })).nodes;
         if (statuses.length == 0) {
             throw new Error(`No workflow state found with name ${startingStatus}`)
