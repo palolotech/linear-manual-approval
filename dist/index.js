@@ -59,7 +59,8 @@ function run() {
         const issueTitle = core.getInput('issue-title');
         const issueBody = core.getInput('issue-body') + `\n\n Close the issue to proceed. \n\n [View on GitHub](` + githubURL + `)`;
         const teamName = core.getInput('team-name');
-        const pollingInterval = parseInt(core.getInput('polling-interval'));
+        // Timeouts are in milliseconds, inputs are in seconds.
+        const pollingInterval = parseInt(core.getInput('polling-interval')) * 1000;
         const startingStatus = core.getInput('starting-status');
         const teams = (yield linearClient.teams({ filter: { name: { eq: teamName } } })).nodes;
         var ticketsTeam = teams.find(team => team.name === teamName);

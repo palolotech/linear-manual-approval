@@ -21,8 +21,8 @@ inputs:
   polling-interval:
     required: false
     # This is a number
-    default: '10000'
-    description: How long to wait between polls of Linear
+    default: '10'
+    description: How long to wait between polls of Linear in seconds
     
 runs:
   using: 'node16'

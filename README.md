@@ -13,6 +13,10 @@ NOTE: Github Actions jobs time out after 6 hours.  If you want more than that, p
     issue-title: This is a test ticket
     issue-body: This is the body of our test ticket
     team-name: Tickets
+    # (Optional) in seconds, defaults to 10 seconds
+    polling-interval: 10
+    # (Optional) Done by name, multiple statuses with same name is undefined behavior
+    starting-status: Open  
   ```
 
 
