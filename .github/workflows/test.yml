@@ -13,3 +13,4 @@ jobs:
           issue-title: This is a test ticket
           issue-body: This is the body of our test ticket
           team-name: Tickets
+          starting-status: Open
