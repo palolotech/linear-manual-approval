@@ -1,5 +1,6 @@
 import * as core from '@actions/core'
 import {LinearClient, LinearFetch, User} from '@linear/sdk'
+import { IssueCreateInput } from '@linear/sdk/dist/_generated_documents'
 import {wait} from './wait'
 
 
@@ -15,25 +16,38 @@ async function run(): Promise<void> {
     const user = await getCurrentUser(linearClient)
     console.log(`Running as user: ${user}`)
 
-    const teams = (await linearClient.teams()).nodes;
-
     // This is really hacky, but it works.
     // https://github.com/orgs/community/discussions/25470
     const githubURL = `https://github.com/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}`
 
     const issueTitle = core.getInput('issue-title')
     const issueBody = core.getInput('issue-body') + `\n\n Close the issue to proceed. \n\n [View on GitHub](` + githubURL + `)`
-
     const teamName = core.getInput('team-name')
-
     const pollingInterval = parseInt(core.getInput('polling-interval'))
+    const startingStatus = core.getInput('starting-status');
+
+    const teams = (await linearClient.teams({filter: { name: {eq: teamName}}})).nodes;
+ 
 
     var ticketsTeam = teams.find(team => team.name === teamName);
     if (ticketsTeam === undefined) {
         throw new Error(`${teamName} team not found`);
     }
   
-    const createdIssue = await linearClient.issueCreate({  title: issueTitle, teamId: ticketsTeam.id, description: issueBody })
+    var linearIssueCreateOptions : IssueCreateInput = {  title: issueTitle, teamId: ticketsTeam.id, description: issueBody }
+
+    if (startingStatus != "do not set") {
+        const statuses = (await linearClient.workflowStates({ filter: { team: {id: { eq: ticketsTeam.id}}, name: { eq: startingStatus } } })).nodes;
+        if (statuses.length == 0) {
+            throw new Error(`No workflow state found with name ${startingStatus}`)
+        }
+        const status = statuses[0]
+        console.log(`Setting status to ${status.name} as id ${status.id}`)
+        linearIssueCreateOptions.stateId = status.id
+    }
+
+
+    const createdIssue = await linearClient.issueCreate(linearIssueCreateOptions)
     if (createdIssue === undefined) {
         throw new Error('Issue not created');
     }

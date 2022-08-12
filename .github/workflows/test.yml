@@ -5,6 +5,7 @@ on: # rebuild any PRs and main branch changes
     branches:
       - main
       - 'releases/*'
+  workflow_dispatch:
 
 jobs:
   build: # make sure build/ci work properly
@@ -21,4 +22,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: ./
         with:
-          milliseconds: 1000
+          linear-api-key: ${{ secrets.LINEAR_API_KEY }}
+          issue-title: This is a test ticket
+          issue-body: This is the body of our test ticket
+          team-name: Tickets
