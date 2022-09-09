@@ -30,8 +30,8 @@
     "@linear/sdk": "^1.22.0"
   },
   "devDependencies": {
-    "@types/node": "^16.11.56",
-    "@typescript-eslint/parser": "^5.36.1",
+    "@types/node": "^16.11.58",
+    "@typescript-eslint/parser": "^5.36.2",
     "@vercel/ncc": "^0.31.1",
     "eslint": "^8.23.0",
     "eslint-plugin-github": "^4.3.7",
@@ -40,6 +40,6 @@
     "js-yaml": "^4.1.0",
     "prettier": "2.5.1",
     "ts-jest": "^27.1.5",
-    "typescript": "^4.8.2"
+    "typescript": "^4.8.3"
   }
 }
